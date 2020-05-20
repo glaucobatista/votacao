@@ -1,5 +1,6 @@
 
 # Create your views here.
+from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -11,8 +12,10 @@ class IndexView(generic.ListView):
     template_name = 'polls/index.html'
     context_object_name = 'lista_ultimas_perguntas'
     def get_queryset(self):
-        return Pergunta.objects.order_by('-data_publicacao')[:5]
-
+        return Pergunta.objects.filter(
+        data_publicacao__lte=timezone.now()
+        ).order_by('-data_publicacao')[:5]
+        
 
 class DetalheView(generic.DetailView):
 
