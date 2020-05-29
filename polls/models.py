@@ -19,6 +19,9 @@ class Pergunta(models.Model):
     def publicado_recentemente(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.data_publicacao <= now
+    publicado_recentemente.admin_order_field = 'data_publicacao'
+    publicado_recentemente.boolean = True
+    publicado_recentemente.short_description = 'Publicado recentemente?'
         
 
 

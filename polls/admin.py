@@ -4,12 +4,14 @@ from django.contrib import admin
 
 from .models import Pergunta, Opcao
 
-admin.site.register(Pergunta)
+class OpcaoInline(admin.StackedInline):
+    model = Opcao
+    extra = 0
+
 class PerguntaAdmin(admin.ModelAdmin):
-    fields = ('pergunta_texto')
+    list_display = ('pergunta_texto', 'data_publicacao','publicado_recentemente')
+    list_filter = ['data_publicacao']
+    search_fields = ['pergunta_texto']
+    inlines = [OpcaoInline]
 
-
-admin.site.register(Opcao)
-class OpcaoAdmin(admin.ModelAdmin):
-    fields = ('opcao_texto', 'votos')
-    list_display = ('opcao_texto', 'votos')
+admin.site.register(Pergunta, PerguntaAdmin)
